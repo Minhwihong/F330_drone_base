@@ -1,0 +1,27 @@
+{
+    "editor.tokenColorCustomizations": {
+        "textMateRules": [
+            {
+                "scope": "variable.other.local",
+                "settings": {
+                    "foreground": "#ce38b3",
+                    "fontStyle": "italic "
+                }
+            },
+            {
+                "scope": "variable.other.property",
+                "settings": {
+                    "foreground": "#9b9be4"
+                    
+                }
+            },
+            {
+                "scope": "variable.other.global",
+                "settings": {
+                    "foreground": "#41c6ff",
+                     "fontStyle": "  bold"
+                }
+            }
+        ]
+    }
+}
