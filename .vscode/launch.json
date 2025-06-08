@@ -12,6 +12,10 @@
             // Let CMake extension decide executable: "${command:cmake.launchTargetPath}"
             // Or fixed file path: "${workspaceFolder}/path/to/filename.elf"
             "request": "launch",
+            "liveWatch": {
+                "enabled": true,
+                "samplesPerSecond": 4
+            },
             "servertype": "stlink",
             "device": "STM32F429ZITx", //MCU used
             "interface": "swd",
