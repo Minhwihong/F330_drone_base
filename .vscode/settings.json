@@ -23,5 +23,9 @@
                 }
             }
         ]
+    },
+    "files.associations": {
+        "tiny_printf.h": "c",
+        "entry.h": "c"
     }
 }

@@ -1,4 +1,8 @@
 #include "entry.h"
+#include "main.h"
+
+
+#include "taskSensImu.h"
 
 void TaskBoardLedCtl(void* args);
 void TaskBasic(void* args);
@@ -7,9 +11,11 @@ void EntryPoint(){
 
     static xTaskHandle xTskHnd_basic;
     static xTaskHandle xTskHnd_boardLed;
+    static xTaskHandle xTskHnd_IMU;
 
     xTaskCreate(TaskBasic, "Basic", 128, (void*)0, 2, &xTskHnd_basic);
     xTaskCreate(TaskBoardLedCtl, "ctl_led", 128, (void*)0, 2, &xTskHnd_boardLed);
+    xTaskCreate(TaskSenseIMU, "sensIMU", 256, (void*)0, 2, &xTskHnd_IMU);
 }
 
 
@@ -33,7 +39,7 @@ void TaskBoardLedCtl(void* args){
 
     while(1){
 
-        //HAL_GPIO_TogglePin(LD3_GPIO_Port, LD3_Pin);
+        HAL_GPIO_TogglePin(LD3_GPIO_Port, LD3_Pin);
         HAL_GPIO_TogglePin(LD4_GPIO_Port, LD4_Pin);
 
         vTaskDelay(1000);

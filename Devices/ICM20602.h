@@ -21,6 +21,10 @@
 #ifndef _ICM20602_H
 #define _ICM20602_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "main.h"
 #include "tiny_printf.h"
 /*
@@ -177,4 +181,7 @@ void ICM20602_Get3AxisGyroRawData(short* gyro);
 void ICM20602_Get3AxisAccRawData(short* accel);
 int ICM20602_DataReady(void);
 
+#ifdef __cplusplus
+}
+#endif
 #endif

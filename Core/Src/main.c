@@ -25,6 +25,7 @@
 #include "entry.h"
 #include "tiny_printf.h"
 #include "ICM20602.h"
+#include "taskSensImu.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -86,7 +87,7 @@ static void MX_USART2_UART_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_TIM3_Init(void);
 /* USER CODE BEGIN PFP */
-int16_t g_ausGyro[3] = {0,};
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -148,11 +149,11 @@ int main(void)
 
   ICM20602_Initialization();
 
-  while(1){
-    HAL_Delay(5);
-    ICM20602_Get3AxisGyroRawData(g_ausGyro);
-    printf("X: %d, Y: %d, Z: %d\r\n",g_ausGyro[0], g_ausGyro[1],g_ausGyro[2] );
-  }
+  // while(1){
+  //   HAL_Delay(5);
+  //   ICM20602_Get3AxisGyroRawData(g_ausGyro);
+  //   printf("X: %d, Y: %d, Z: %d\r\n",g_ausGyro[0], g_ausGyro[1],g_ausGyro[2] );
+  // }
   
 
   EntryPoint();
