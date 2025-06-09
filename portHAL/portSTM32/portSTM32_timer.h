@@ -1,42 +1,26 @@
-#ifndef _PORT_STM32_TIMER_H__
-#define _PORT_STM32_TIMER_H__
-
-extern "C" {
-#include "stm32f4xx_hal.h"
-#include "string.h"
-}
+#ifndef __PORT_STM32_TIMER_H__
+#define __PORT_STM32_TIMER_H__
 
 #include "typeSimple.h"
-#include "ITimer.h"
+#include "stm32f4xx_hal.h"
 
 
 
 
-class portSTM32Timer : public ITimer {
-
-public:
-    portSTM32Timer()  { }
-
-    void GetTimerInstace(TIM_HandleTypeDef* _pstTimerHandle);
+typedef struct {
+    TIM_HandleTypeDef* pxTimer;
+}Tm_HwWrapper;
 
 
-    void StartHWTimer() override;
 
-    void StopHWTimer() override;
-
-    uint8_t RegisterTimer(UserTimer* _timer) override;
-
-    uint8_t GetTimerOccupy() override { return m_ucRegisterCount; }
+void portHw_StopHWTimer(Tm_HwWrapper* pxHwTimer);
+void portHw_StartHWTimer(Tm_HwWrapper* pxHwTimer);
+//void OnTimerPeriodExpired(Tm_HwWrapper* pxHwTimer);
 
 
-    void HWTimerCallback() override;
+void portHw_InitCountingTimer(Tm_HwWrapper* pxTimer);
+u32 portHw_GetTimerCount(Tm_HwWrapper* pxTimer);
+void portHw_ResetTimerCount(Tm_HwWrapper* pxTimer);
 
-private:
-
-    TIM_HandleTypeDef* m_pstTimerHandle;
-
-    
-
-};
 
 #endif

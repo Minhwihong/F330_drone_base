@@ -1,55 +1,27 @@
 #ifndef __PORT_STM32_GPIO_H__
 #define __PORT_STM32_GPIO_H__
 
+#ifdef __cplusplus
 extern "C" {
-#include "stm32f4xx_hal.h"
-#include "string.h"
-}
+#endif
 
 #include "typeSimple.h"
-#include "IGpio.h"
+#include "stm32f4xx_hal.h"
 
 
-class portSTM32Gpio : public IGpio {
-
-public:
-    portSTM32Gpio(eGpioMode _mode, u8 _m_ucUseFilter, GPIO_TypeDef * _pstGpioPort, uint16_t _usGpioPin) : 
-    	IGpio(_m_ucUseFilter, _mode), m_pstGpioPort(_pstGpioPort), m_usGpioPin(_usGpioPin) {
-        //m_ucUseFilter = _m_ucUseFilter;
-        //m_useMode = _mode;
-
-//        m_pstGpioPort = _pstGpioPort;
-//        m_usGpioPin = _usGpioPin;
-
-        //IGpio::Init(_mode, _m_ucUseFilter);
-    }
-
-    void Init(eGpioMode _mode, GPIO_TypeDef * _pstGpioPort, uint16_t _usGpioPin){
-        m_pstGpioPort = _pstGpioPort;
-        m_usGpioPin = _usGpioPin;
-
-        (void)_mode;
-        //IGpio::Init(_mode);
-    }
-
-    void Toggle() override {
-        HAL_GPIO_TogglePin(m_pstGpioPort, m_usGpioPin);
-    }
-
-    void Write(bool sig) override {
-        HAL_GPIO_WritePin(m_pstGpioPort, m_usGpioPin, (sig == true) ? GPIO_PIN_SET : GPIO_PIN_RESET);
-    }
-
-    u8 Read() override {
-        return HAL_GPIO_ReadPin(m_pstGpioPort, m_usGpioPin) == GPIO_PIN_SET;
-    }
-
-private:
-    GPIO_TypeDef * m_pstGpioPort;
-	uint16_t m_usGpioPin;
-};
+typedef struct {
+	GPIO_TypeDef* uiPort;
+	u16 usPin;
+}Gpio_HwWrapper;
 
 
+void portHw_GpioDef( GPIO_TypeDef* uiPort, u16 usPin, u8 ucMode, u8 ucUseFilter);
+u8 portHw_readPin(Gpio_HwWrapper* pxPin);
+void portHw_writePin(Gpio_HwWrapper* pxPin, u8 l_ucPinState);
+void portHw_togglePin(Gpio_HwWrapper* pxPin);
+void portHw_OnGpio_EdgeIsr_Callback(u16 usPin);
 
-
+#ifdef __cplusplus
+}
+#endif
 #endif

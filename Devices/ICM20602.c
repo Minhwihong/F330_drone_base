@@ -55,70 +55,6 @@ Struct_ICM20602 ICM20602;
 int32_t gyro_x_offset, gyro_y_offset, gyro_z_offset; // To remove offset
 
 
-void ICM20602_GPIO_SPI_Initialization(void) {
-
-	#if 0
-	LL_SPI_InitTypeDef SPI_InitStruct = {0};
-	
-	LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
-	/* Peripheral clock enable */
-	LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SPI1);
-	
-	LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA);
-	LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOC);
-	/**SPI1 GPIO Configuration
-	PA5   ------> SPI1_SCK
-	PA6   ------> SPI1_MISO
-	PA7   ------> SPI1_MOSI
-	*/
-	GPIO_InitStruct.Pin = LL_GPIO_PIN_5|LL_GPIO_PIN_6|LL_GPIO_PIN_7;
-	GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
-	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH;
-	GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-	GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
-	GPIO_InitStruct.Alternate = LL_GPIO_AF_5;
-	LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-	
-	SPI_InitStruct.TransferDirection = LL_SPI_FULL_DUPLEX;
-	SPI_InitStruct.Mode = LL_SPI_MODE_MASTER;
-	SPI_InitStruct.DataWidth = LL_SPI_DATAWIDTH_8BIT;
-	SPI_InitStruct.ClockPolarity = LL_SPI_POLARITY_HIGH;
-	SPI_InitStruct.ClockPhase = LL_SPI_PHASE_2EDGE;
-	SPI_InitStruct.NSS = LL_SPI_NSS_SOFT;
-	SPI_InitStruct.BaudRate = LL_SPI_BAUDRATEPRESCALER_DIV8; //ICM-20602 MAX SPI CLK is 10MHz. But DIV2(42MHz) is available.
-	SPI_InitStruct.BitOrder = LL_SPI_MSB_FIRST;
-	SPI_InitStruct.CRCCalculation = LL_SPI_CRCCALCULATION_DISABLE;
-	SPI_InitStruct.CRCPoly = 10;
-	LL_SPI_Init(ICM20602_SPI_CHANNEL, &SPI_InitStruct);
-	LL_SPI_SetStandard(ICM20602_SPI_CHANNEL, LL_SPI_PROTOCOL_MOTOROLA);
-	
-	/**ICM20602 GPIO Control Configuration
-	 * PC4  ------> ICM20602_SPI_CS_PIN (output)
-	 * PC5  ------> ICM20602_INT_PIN (input)
-	 */
-	/**/
-	LL_GPIO_ResetOutputPin(ICM20602_SPI_CS_PORT, ICM20602_SPI_CS_PIN);
-	
-	/**/
-	GPIO_InitStruct.Pin = ICM20602_SPI_CS_PIN;
-	GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
-	GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH;
-	GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-	GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
-	LL_GPIO_Init(ICM20602_SPI_CS_PORT, &GPIO_InitStruct);
-	
-	/**/
-	GPIO_InitStruct.Pin = ICM20602_INT_PIN;
-	GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
-	GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
-	LL_GPIO_Init(ICM20602_INT_PORT, &GPIO_InitStruct);
-
-	LL_SPI_Enable(ICM20602_SPI_CHANNEL);
-
-	CHIP_DESELECT(ICM20602);
-	#endif
-	
-}
 
 #if 0
 typedef enum 
@@ -209,7 +145,7 @@ int ICM20602_Initialization(void)
 	// int16_t accel_raw_data[3] = {0};  // To remove offset
 	// int16_t gyro_raw_data[3] = {0};   // To remove offset
 	
-	ICM20602_GPIO_SPI_Initialization();
+	//ICM20602_GPIO_SPI_Initialization();
 	
 	printf("Checking ICM20602...");
 	

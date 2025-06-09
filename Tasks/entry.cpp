@@ -4,17 +4,19 @@
 
 #include "taskSensImu.h"
 
-//#include "IGpio.h"
-#include "board_stm32f429disc.h"
 
+#include "board_stm32f429disc.h"
+#include "IF_Hal.h"
 
 /* ********************* Board LED Configure ****************************** */
-IGpio* g_pxGpo_boardLed1;
-IGpio* g_pxGpo_boardLed2;
+// IGpio* g_pxGpo_boardLed1;
+// IGpio* g_pxGpo_boardLed2;
+GpioNode_t g_xGpo_boardLed1;
+GpioNode_t g_xGpo_boardLed2;
 
 
-
-
+TimerContainer_t g_xTmContainer;
+TimerCounter_t g_xTmCounter;
 
 
 
@@ -66,8 +68,8 @@ void TaskBoardLedCtl(void* args){
         // HAL_GPIO_TogglePin(LD3_GPIO_Port, LD3_Pin);
         // HAL_GPIO_TogglePin(LD4_GPIO_Port, LD4_Pin);
 
-        g_pxGpo_boardLed1->Toggle();
-        g_pxGpo_boardLed2->Toggle();
+        ToggleGpio(&g_xGpo_boardLed1);
+        ToggleGpio(&g_xGpo_boardLed2);
 
         vTaskDelay(1000);
 

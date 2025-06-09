@@ -98,6 +98,8 @@ file(GLOB SRC_FILES CONFIGURE_DEPENDS
     Devices/*.c
     portHAL/*.cpp
     portHAL/portSTM32/*.cpp
+    portHAL/*.c
+    portHAL/portSTM32/*.c
     BSP/*.cpp
     #ThirdParty/TinyPrintf/*.c
     #ThirdParty/Cli/*.c

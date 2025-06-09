@@ -1,38 +1,19 @@
 #ifndef __PORT_STM32_ADC_H__
 #define __PORT_STM32_ADC_H__
-
-#include "IAdc.h"
-#include "main.h"
 #if 0
-class portSTM32Adc : public AdcInterface{
-public:
-    portSTM32Adc(ADC_HandleTypeDef* _adc) : m_adcInst(_adc) {
+#include "typeSimple.h"
+#include "stm32f4xx_hal.h"
 
-    }
+typedef struct {
 
-    void GetAdcHw(ADC_HandleTypeDef* _adc){
-        m_adcInst = _adc;
-    }
+    ADC_HandleTypeDef* pxHwAdc;
 
-    uint8_t ADCStartDMA(uint16_t* u16Val, uint8_t cnt) override{
-        return (uint8_t)HAL_ADC_Start_DMA(m_adcInst, (uint32_t *)u16Val, cnt);
-    }
-
-    uint8_t ADCStartDMA(uint8_t* u8Val, uint8_t cnt) override{
-        return (uint8_t)HAL_ADC_Start_DMA(m_adcInst, (uint32_t *)u8Val, cnt);
-    }
-
-    uint8_t ADCStartDMA(uint32_t* u32Val, uint8_t cnt) override{
-        return (uint8_t)HAL_ADC_Start_DMA(m_adcInst, (uint32_t *)u32Val, cnt);
-    }
-
-    void ADCStart() override{
-
-    }
+}HwAdcWrapper_t;
 
 
-private:
-    ADC_HandleTypeDef* m_adcInst;     
-};
+void portHw_InitAdcDrive(HwAdcWrapper_t* pxHwWrapper, ADC_HandleTypeDef* _pxHwAdc);
+void portHw_StartAdc_dma(HwAdcWrapper_t* pxHwWrapper, u16* pusBuf);
+u16 portHw_GetAdc_ChannelCnt(HwAdcWrapper_t* pxHwWrapper);
 #endif
+
 #endif
