@@ -7,7 +7,7 @@
 
 void BSP_BaseTimerInit();
 void BSP_BoardLedInit();
-
+void BSP_Icm20602Init();
 
 
 #endif

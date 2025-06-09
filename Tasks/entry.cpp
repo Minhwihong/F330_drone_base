@@ -34,9 +34,9 @@ void EntryPoint(){
 
     BSP_BoardLedInit();
 
-
-
     BSP_BaseTimerInit();
+
+    BSP_Icm20602Init();
 
     
     xTaskCreate(TaskBasic, "Basic", 128, (void*)0, 2, &xTskHnd_basic);

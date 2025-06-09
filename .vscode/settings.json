@@ -26,6 +26,15 @@
     },
     "files.associations": {
         "tiny_printf.h": "c",
-        "entry.h": "c"
+        "entry.h": "c",
+        "portstm32_gpio.h": "c",
+        "array": "c",
+        "ranges": "c",
+        "span": "c",
+        "vector": "c",
+        "xstring": "c",
+        "xutility": "c",
+        "string": "c",
+        "string_view": "c"
     }
 }

@@ -183,6 +183,7 @@ void Error_Handler(void);
 
 
 extern TIM_HandleTypeDef htim7;
+extern SPI_HandleTypeDef hspi2;
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

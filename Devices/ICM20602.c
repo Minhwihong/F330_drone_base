@@ -51,7 +51,7 @@ extern SPI_HandleTypeDef hspi3;
 
 #define ICM20603_SPI		(hspi2)
 
-Struct_ICM20602 ICM20602;
+ICM20602_t ICM20602;
 int32_t gyro_x_offset, gyro_y_offset, gyro_z_offset; // To remove offset
 
 
@@ -66,79 +66,92 @@ typedef enum
 } HAL_StatusTypeDef;
 #endif
 
-unsigned char SPI1_SendByte(unsigned char data)
-{
-	uint8_t rtn = 0;
 
-	rtn = HAL_SPI_Transmit(&ICM20603_SPI, &data, 1, HAL_MAX_DELAY);
-	
-	return rtn;
-}
 
 //////////////////////////////////////////////////////////////
 
-uint8_t ICM20602_Readbyte(uint8_t reg_addr)
+uint8_t ICM20602_Readbyte(ISpi* pxSpi, uint8_t reg_addr)
 {
 	uint8_t val;
 	uint8_t rtn = 0;
 
-	HAL_GPIO_WritePin(SPI_CS_ICM20602_GPIO_Port, SPI_CS_ICM20602_Pin, GPIO_PIN_RESET);
-	rtn = SPI1_SendByte(reg_addr | 0x80); //Register. MSB 1 is read instruction.
+	//HAL_GPIO_WritePin(SPI_CS_ICM20602_GPIO_Port, SPI_CS_ICM20602_Pin, GPIO_PIN_RESET);
+	ISpiChipSelect(pxSpi, 0);
+
+	rtn = ISpiWriteByte(pxSpi, reg_addr | 0x80);	//Register. MSB 1 is read instruction.
 	//val = SPI1_SendByte(0x00); //Send DUMMY to read data
 	
 	if(rtn != 0){
 		return 0;
 	}
 
-	HAL_SPI_Receive(&ICM20603_SPI, &val, 1, HAL_MAX_DELAY);
+	//HAL_SPI_Receive(&ICM20603_SPI, &val, 1, HAL_MAX_DELAY);
+	ISpiReadByte(pxSpi, &val);
 	
-	HAL_GPIO_WritePin(SPI_CS_ICM20602_GPIO_Port, SPI_CS_ICM20602_Pin, GPIO_PIN_SET);
+	//HAL_GPIO_WritePin(SPI_CS_ICM20602_GPIO_Port, SPI_CS_ICM20602_Pin, GPIO_PIN_SET);
+	ISpiChipSelect(pxSpi, 1);
 	
 	return val;
 }
 
-void ICM20602_Readbytes(unsigned char reg_addr, unsigned char len, unsigned char* data)
+void ICM20602_Readbytes(ISpi* pxSpi, unsigned char reg_addr, unsigned char len, unsigned char* data)
 {
 	unsigned int i = 0;
 
-	HAL_GPIO_WritePin(SPI_CS_ICM20602_GPIO_Port, SPI_CS_ICM20602_Pin, GPIO_PIN_RESET);
+	//HAL_GPIO_WritePin(SPI_CS_ICM20602_GPIO_Port, SPI_CS_ICM20602_Pin, GPIO_PIN_RESET);
+	ISpiChipSelect(pxSpi, 0);
 	
-	SPI1_SendByte(reg_addr | 0x80); //Register. MSB 1 is read instruction.
+	//SPI_SendByte(reg_addr | 0x80); //Register. MSB 1 is read instruction.
+	ISpiWriteByte(pxSpi, reg_addr | 0x80);
 	
 	while(i < len)
 	{
 		//data[i++] = SPI1_SendByte(0x00); //Send DUMMY to read data
-		HAL_SPI_Receive(&ICM20603_SPI, &data[i], 1, 20);
+		//HAL_SPI_Receive(&ICM20603_SPI, &data[i], 1, 20);
+		ISpiReadByte(pxSpi, &data[i]);
 		i++;
 	}
 
-	HAL_GPIO_WritePin(SPI_CS_ICM20602_GPIO_Port, SPI_CS_ICM20602_Pin, GPIO_PIN_SET);
+	//HAL_GPIO_WritePin(SPI_CS_ICM20602_GPIO_Port, SPI_CS_ICM20602_Pin, GPIO_PIN_SET);
+	ISpiChipSelect(pxSpi, 1);
 }
 
-void ICM20602_Writebyte(uint8_t reg_addr, uint8_t val)
+void ICM20602_Writebyte(ISpi* pxSpi, uint8_t reg_addr, uint8_t val)
 {
-	HAL_GPIO_WritePin(SPI_CS_ICM20602_GPIO_Port, SPI_CS_ICM20602_Pin, GPIO_PIN_RESET);
+	//HAL_GPIO_WritePin(SPI_CS_ICM20602_GPIO_Port, SPI_CS_ICM20602_Pin, GPIO_PIN_RESET);
+	ISpiChipSelect(pxSpi, 0);
 
-	SPI1_SendByte(reg_addr & 0x7F); //Register. MSB 0 is write instruction.
-	SPI1_SendByte(val); //Send Data to write
+	// SPI_SendByte(reg_addr & 0x7F); //Register. MSB 0 is write instruction.
+	// SPI_SendByte(val); //Send Data to write
 
-	HAL_GPIO_WritePin(SPI_CS_ICM20602_GPIO_Port, SPI_CS_ICM20602_Pin, GPIO_PIN_SET);
+	ISpiWriteByte(pxSpi, reg_addr & 0x7F);	//Register. MSB 0 is write instruction.
+	ISpiWriteByte(pxSpi, val);				//Send Data to write
+
+	//HAL_GPIO_WritePin(SPI_CS_ICM20602_GPIO_Port, SPI_CS_ICM20602_Pin, GPIO_PIN_SET);
+	ISpiChipSelect(pxSpi, 1);
 }
 
-void ICM20602_Writebytes(unsigned char reg_addr, unsigned char len, unsigned char* data)
+void ICM20602_Writebytes(ISpi* pxSpi, unsigned char reg_addr, unsigned char len, unsigned char* data)
 {
 	unsigned int i = 0;
-	HAL_GPIO_WritePin(SPI_CS_ICM20602_GPIO_Port, SPI_CS_ICM20602_Pin, GPIO_PIN_RESET);
-	SPI1_SendByte(reg_addr & 0x7F); //Register. MSB 0 is write instruction.
+
+	//HAL_GPIO_WritePin(SPI_CS_ICM20602_GPIO_Port, SPI_CS_ICM20602_Pin, GPIO_PIN_RESET);
+	ISpiChipSelect(pxSpi, 0);
+	
+	//SPI_SendByte(reg_addr & 0x7F); //Register. MSB 0 is write instruction.
+	ISpiWriteByte(pxSpi, reg_addr & 0x7F);	//Register. MSB 0 is write instruction.
+	
 	while(i < len)
 	{
-		SPI1_SendByte(data[i++]); //Send Data to write
+		ISpiWriteByte(pxSpi, data[i++]); //Send Data to write
 	}
-	HAL_GPIO_WritePin(SPI_CS_ICM20602_GPIO_Port, SPI_CS_ICM20602_Pin, GPIO_PIN_SET);
+	
+	//HAL_GPIO_WritePin(SPI_CS_ICM20602_GPIO_Port, SPI_CS_ICM20602_Pin, GPIO_PIN_SET);
+	ISpiChipSelect(pxSpi, 1);
 }
 
 
-int ICM20602_Initialization(void)
+int ICM20602_Initialization(ISpi* pxSpi)
 {
 
 	uint8_t who_am_i = 0;
@@ -150,7 +163,7 @@ int ICM20602_Initialization(void)
 	printf("Checking ICM20602...");
 	
 	// check WHO_AM_I (0x75)
-	who_am_i = ICM20602_Readbyte(WHO_AM_I); 
+	who_am_i = ICM20602_Readbyte(pxSpi, WHO_AM_I); 
 
 	// who am i = 0x12
 	if(who_am_i == 0x12)
@@ -160,7 +173,7 @@ int ICM20602_Initialization(void)
 	// recheck
 	else if(who_am_i != 0x12)
 	{
-		who_am_i = ICM20602_Readbyte(WHO_AM_I); // check again WHO_AM_I (0x75)
+		who_am_i = ICM20602_Readbyte(pxSpi, WHO_AM_I); // check again WHO_AM_I (0x75)
 
 		if (who_am_i != 0x12){
 			printf( "ICM20602 Not OK: 0x%02x Should be 0x%02x\n", who_am_i, 0x12);
@@ -170,42 +183,42 @@ int ICM20602_Initialization(void)
 	
 	// Reset ICM20602
 	// PWR_MGMT_1 0x6B
-	ICM20602_Writebyte(PWR_MGMT_1, 0x80); //Reset ICM20602
+	ICM20602_Writebyte(pxSpi, PWR_MGMT_1, 0x80); //Reset ICM20602
 	HAL_Delay(50);
 
 	// PWR_MGMT_1 0x6B
-	ICM20602_Writebyte(PWR_MGMT_1, 0x01); // Enable Temperature sensor(bit4-0), Use PLL(bit2:0-01)
+	ICM20602_Writebyte(pxSpi, PWR_MGMT_1, 0x01); // Enable Temperature sensor(bit4-0), Use PLL(bit2:0-01)
 									// 온도센서 끄면 자이로 값 이상하게 출력됨
 	HAL_Delay(50);
 
 	// PWR_MGMT_2 0x6C
-	ICM20602_Writebyte(PWR_MGMT_2, 0x38); // Disable Acc(bit5:3-111), Enable Gyro(bit2:0-000)
+	ICM20602_Writebyte(pxSpi, PWR_MGMT_2, 0x38); // Disable Acc(bit5:3-111), Enable Gyro(bit2:0-000)
 	//ICM20602_Writebyte( PWR_MGMT_2, 0x00 ); // Enable Acc(bit5:3-000), Enable Gyro(bit2:0-000)
 	HAL_Delay(50);
 	
 	// set sample rate to 1000Hz and apply a software filter
-	ICM20602_Writebyte(SMPLRT_DIV, 0x00);
+	ICM20602_Writebyte(pxSpi, SMPLRT_DIV, 0x00);
 	HAL_Delay(50);
 	
 	// Gyro DLPF Config
 	//ICM20602_Writebyte(CONFIG, 0x00); // Gyro LPF fc 250Hz(bit2:0-000)
-	ICM20602_Writebyte(CONFIG, 0x05); // Gyro LPF fc 20Hz(bit2:0-100) at 1kHz sample rate
+	ICM20602_Writebyte(pxSpi, CONFIG, 0x05); // Gyro LPF fc 20Hz(bit2:0-100) at 1kHz sample rate
 	HAL_Delay(50);
 
 	// GYRO_CONFIG 0x1B
-	ICM20602_Writebyte(GYRO_CONFIG, 0x18); // Gyro sensitivity 2000 dps(bit4:3-11), FCHOICE (bit1:0-00)
+	ICM20602_Writebyte(pxSpi, GYRO_CONFIG, 0x18); // Gyro sensitivity 2000 dps(bit4:3-11), FCHOICE (bit1:0-00)
 	HAL_Delay(50);
 
 	// ACCEL_CONFIG 0x1C
-	ICM20602_Writebyte(ACCEL_CONFIG, 0x18); // Acc sensitivity 16g
+	ICM20602_Writebyte(pxSpi, ACCEL_CONFIG, 0x18); // Acc sensitivity 16g
 	HAL_Delay(50);
 	
 	// ACCEL_CONFIG2 0x1D
-	ICM20602_Writebyte(ACCEL_CONFIG2, 0x03); // Acc FCHOICE 1kHz(bit3-0), DLPF fc 44.8Hz(bit2:0-011)
+	ICM20602_Writebyte(pxSpi, ACCEL_CONFIG2, 0x03); // Acc FCHOICE 1kHz(bit3-0), DLPF fc 44.8Hz(bit2:0-011)
 	HAL_Delay(50);
 	
 	// Enable Interrupts when data is ready
-	ICM20602_Writebyte(INT_ENABLE, 0x01); // Enable DRDY Interrupt
+	ICM20602_Writebyte(pxSpi, INT_ENABLE, 0x01); // Enable DRDY Interrupt
 	HAL_Delay(50);
 	
 	//printf("gyro bias: %d %d %d\n", gyro_x_offset, gyro_y_offset, gyro_z_offset);
@@ -225,10 +238,10 @@ int ICM20602_Initialization(void)
 	return 0; //OK
 }
 
-void ICM20602_Get6AxisRawData(short* accel, short* gyro)
+void ICM20602_Get6AxisRawData(ISpi* pxSpi, short* accel, short* gyro)
 {
 	unsigned char data[14];
-	ICM20602_Readbytes(ACCEL_XOUT_H, 14, data);
+	ICM20602_Readbytes(pxSpi, ACCEL_XOUT_H, 14, data);
 	
 	accel[0] = (data[0] << 8) | data[1];
 	accel[1] = (data[2] << 8) | data[3];
@@ -239,20 +252,20 @@ void ICM20602_Get6AxisRawData(short* accel, short* gyro)
 	gyro[2] = ((data[12] << 8) | data[13]);
 }
 
-void ICM20602_Get3AxisGyroRawData(short* gyro)
+void ICM20602_Get3AxisGyroRawData(ISpi* pxSpi, short* gyro)
 {
 	unsigned char data[6];
-	ICM20602_Readbytes(GYRO_XOUT_H, 6, data);
+	ICM20602_Readbytes(pxSpi, GYRO_XOUT_H, 6, data);
 	
 	gyro[0] = ((data[0] << 8) | data[1]);
 	gyro[1] = ((data[2] << 8) | data[3]);
 	gyro[2] = ((data[4] << 8) | data[5]);
 }
 
-void ICM20602_Get3AxisAccRawData(short* accel)
+void ICM20602_Get3AxisAccRawData(ISpi* pxSpi, short* accel)
 {
 	unsigned char data[6];
-	ICM20602_Readbytes(ACCEL_XOUT_H, 6, data);
+	ICM20602_Readbytes(pxSpi, ACCEL_XOUT_H, 6, data);
 	
 	accel[0] = ((data[0] << 8) | data[1]);
 	accel[1] = ((data[2] << 8) | data[3]);

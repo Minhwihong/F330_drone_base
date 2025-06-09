@@ -59,7 +59,7 @@ GpioNode_t *CheckDuplicate_N_makeList(GpioNode_t* pxPin);
 
 
 
-uint8_t ReadGpio(GpioNode_t *pxGpioNode);
+u8 ReadGpio(GpioNode_t *pxGpioNode);
 void WriteGpio(GpioNode_t *pxGpioNode, u8 l_ucPinState);
 void ToggleGpio(GpioNode_t *pxGpioNode);
 

@@ -6,8 +6,8 @@
 
 
 u32 g_uiTTL = 0;
-
-
+ISpi* g_pxComm_Icm20602;
+GpioNode_t g_xGpo_Icm20602_cs;
 
 
 
@@ -23,6 +23,10 @@ static u16 g_usGpioId = 0;
 
 static void InitTimerTask_TTL();
 static void TimerTask_TTL(void* args);
+
+
+
+
 
 void BSP_BaseTimerInit(){
 
@@ -44,17 +48,55 @@ void BSP_BaseTimerInit(){
 
 
 
+
+
 void BSP_BoardLedInit(){
 
     static Gpio_HwWrapper xGpo_boardLed1 = {LD3_GPIO_Port, LD3_Pin };
     static Gpio_HwWrapper xGpo_boardLed2 = {LD4_GPIO_Port, LD4_Pin };
 
 
-
-    GpioPin_Def(g_usGpioId++, GPIO_PIN_EDGE, GPI_FILTER_OFF, &g_xGpo_boardLed1, &xGpo_boardLed1);
-    GpioPin_Def(g_usGpioId++, GPIO_PIN_EDGE, GPI_FILTER_OFF, &g_xGpo_boardLed2, &xGpo_boardLed2);
+    GpioPin_Def(g_usGpioId++, GPIO_PIN_OUT, GPI_FILTER_OFF, &g_xGpo_boardLed1, &xGpo_boardLed1);
+    GpioPin_Def(g_usGpioId++, GPIO_PIN_OUT, GPI_FILTER_OFF, &g_xGpo_boardLed2, &xGpo_boardLed2);
 
 }
+
+
+
+
+void BSP_Icm20602Init(){
+
+  static ISpi xComm_Icm20602;
+  static SPI_HwWrapper xSpi_Icm20602;
+  static Gpio_HwWrapper xSpiCs_Icm20602;
+
+  portHw_SpiInit(&xSpi_Icm20602, &hspi2, 1000, 1000);
+  GpioPin_Def(g_usGpioId++, GPIO_PIN_OUT, GPI_FILTER_OFF, &g_xGpo_Icm20602_cs, &xSpiCs_Icm20602);
+
+
+  InitSpiHardware(&xComm_Icm20602, &xSpi_Icm20602, &g_xGpo_Icm20602_cs);
+
+  g_pxComm_Icm20602 = &xComm_Icm20602;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

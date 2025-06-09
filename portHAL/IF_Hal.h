@@ -4,4 +4,6 @@
 #include "IF_timer.h"
 #include "IF_gpio.h"
 #include "IF_Adc.h"
+#include "IF_Hal.h"
+#include "IF_spi.h"
 #endif

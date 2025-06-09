@@ -128,7 +128,7 @@ void DigitalFilterCallback(void *l_pParam)
 
 
 
-uint8_t ReadGpio(GpioNode_t *pxGpioNode)
+u8 ReadGpio(GpioNode_t *pxGpioNode)
 {
 	return portHw_readPin(pxGpioNode->pxGpioPin);
 }

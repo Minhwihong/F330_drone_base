@@ -27,6 +27,7 @@ extern "C" {
 
 #include "main.h"
 #include "tiny_printf.h"
+#include "IF_Hal.h"
 /*
 ICM-20602 SPI Operational Features
 1. Data is delivered MSB first and LSB last
@@ -161,13 +162,13 @@ typedef struct _ICM20602{
 	float gyro_x;
 	float gyro_y;
 	float gyro_z;
-}Struct_ICM20602;
+}ICM20602_t;
 
 /**
  * @brief ICM20602 structure definition.
  */
 
-extern Struct_ICM20602 ICM20602;
+extern ICM20602_t ICM20602;
 extern int32_t gyro_x_offset, gyro_y_offset, gyro_z_offset;
 
 /**
@@ -175,10 +176,10 @@ extern int32_t gyro_x_offset, gyro_y_offset, gyro_z_offset;
  */
 
 void ICM20602_GPIO_SPI_Initialization(void);
-int ICM20602_Initialization(void);
-void ICM20602_Get6AxisRawData(short* accel, short* gyro);
-void ICM20602_Get3AxisGyroRawData(short* gyro);
-void ICM20602_Get3AxisAccRawData(short* accel);
+int ICM20602_Initialization(ISpi* pxSpi);
+void ICM20602_Get6AxisRawData(ISpi* pxSpi, short* accel, short* gyro);
+void ICM20602_Get3AxisGyroRawData(ISpi* pxSpi, short* gyro);
+void ICM20602_Get3AxisAccRawData(ISpi* pxSpi, short* accel);
 int ICM20602_DataReady(void);
 
 #ifdef __cplusplus

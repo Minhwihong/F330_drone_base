@@ -88,6 +88,8 @@ static void MX_SPI1_Init(void);
 static void MX_TIM3_Init(void);
 /* USER CODE BEGIN PFP */
 
+
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -147,7 +149,7 @@ int main(void)
   HAL_GPIO_WritePin(SPI_CS_ICM20602_GPIO_Port, SPI_CS_ICM20602_Pin, GPIO_PIN_SET);
   HAL_Delay(1000);
 
-  ICM20602_Initialization();
+  
 
   // while(1){
   //   HAL_Delay(5);
