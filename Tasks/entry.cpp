@@ -4,6 +4,22 @@
 
 #include "taskSensImu.h"
 
+//#include "IGpio.h"
+#include "board_stm32f429disc.h"
+
+
+/* ********************* Board LED Configure ****************************** */
+IGpio* g_pxGpo_boardLed1;
+IGpio* g_pxGpo_boardLed2;
+
+
+
+
+
+
+
+
+
 void TaskBoardLedCtl(void* args);
 void TaskBasic(void* args);
 
@@ -13,6 +29,14 @@ void EntryPoint(){
     static xTaskHandle xTskHnd_boardLed;
     static xTaskHandle xTskHnd_IMU;
 
+
+    BSP_BoardLedInit();
+
+
+
+    BSP_BaseTimerInit();
+
+    
     xTaskCreate(TaskBasic, "Basic", 128, (void*)0, 2, &xTskHnd_basic);
     xTaskCreate(TaskBoardLedCtl, "ctl_led", 128, (void*)0, 2, &xTskHnd_boardLed);
     xTaskCreate(TaskSenseIMU, "sensIMU", 256, (void*)0, 2, &xTskHnd_IMU);
@@ -39,8 +63,11 @@ void TaskBoardLedCtl(void* args){
 
     while(1){
 
-        HAL_GPIO_TogglePin(LD3_GPIO_Port, LD3_Pin);
-        HAL_GPIO_TogglePin(LD4_GPIO_Port, LD4_Pin);
+        // HAL_GPIO_TogglePin(LD3_GPIO_Port, LD3_Pin);
+        // HAL_GPIO_TogglePin(LD4_GPIO_Port, LD4_Pin);
+
+        g_pxGpo_boardLed1->Toggle();
+        g_pxGpo_boardLed2->Toggle();
 
         vTaskDelay(1000);
 

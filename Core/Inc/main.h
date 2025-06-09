@@ -180,6 +180,9 @@ void Error_Handler(void);
 /* USER CODE BEGIN Private defines */
 #define LD3_Pin GPIO_PIN_13
 #define LD3_GPIO_Port GPIOG
+
+
+extern TIM_HandleTypeDef htim7;
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

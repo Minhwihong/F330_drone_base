@@ -888,7 +888,7 @@ void HAL_SDRAM_MspInit(SDRAM_HandleTypeDef* hsdram){
   /* USER CODE END SDRAM_MspInit 0 */
   HAL_FMC_MspInit();
   /* USER CODE BEGIN SDRAM_MspInit 1 */
-
+  (void)hsdram;
   /* USER CODE END SDRAM_MspInit 1 */
 }
 
@@ -974,7 +974,7 @@ void HAL_SDRAM_MspDeInit(SDRAM_HandleTypeDef* hsdram){
   /* USER CODE END SDRAM_MspDeInit 0 */
   HAL_FMC_MspDeInit();
   /* USER CODE BEGIN SDRAM_MspDeInit 1 */
-
+  (void)hsdram;
   /* USER CODE END SDRAM_MspDeInit 1 */
 }
 

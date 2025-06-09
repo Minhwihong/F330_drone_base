@@ -79,6 +79,9 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     Tasks
     Utils/TinyPrintf
     Devices
+    portHAL
+    portHAL/portSTM32
+    BSP
     #ThirdParty/TinyPrintf
     #ThirdParty/Cli
 )
@@ -93,6 +96,9 @@ file(GLOB SRC_FILES CONFIGURE_DEPENDS
     Tasks/*.cpp
     Utils/TinyPrintf/*.c
     Devices/*.c
+    portHAL/*.cpp
+    portHAL/portSTM32/*.cpp
+    BSP/*.cpp
     #ThirdParty/TinyPrintf/*.c
     #ThirdParty/Cli/*.c
     #GR/Device/*.cpp

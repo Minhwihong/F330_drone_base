@@ -206,8 +206,8 @@ int ICM20602_Initialization(void)
 {
 
 	uint8_t who_am_i = 0;
-	int16_t accel_raw_data[3] = {0};  // To remove offset
-	int16_t gyro_raw_data[3] = {0};   // To remove offset
+	// int16_t accel_raw_data[3] = {0};  // To remove offset
+	// int16_t gyro_raw_data[3] = {0};   // To remove offset
 	
 	ICM20602_GPIO_SPI_Initialization();
 	
