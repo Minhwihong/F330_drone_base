@@ -1,6 +1,10 @@
 #ifndef __PORT_STM32_PWM_H__
 #define __PORT_STM32_PWM_H__
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "typeSimple.h"
 #include "stm32f4xx_hal.h"
 
@@ -34,5 +38,9 @@ void portHw_PWMDual_Generate(PWM2Ch_HwWrapper* pxDualPwm, u32 uiDuty);
 void portHw_PWMDual_NChannelHigh(PWM2Ch_HwWrapper* pxDualPwm);
 void portHw_PWMDual_NChannelLow(PWM2Ch_HwWrapper* pxDualPwm);
 void portHw_PWMDual_Complementary(PWM2Ch_HwWrapper* pxDualPwm, u32 uiChP, u32 uiChN, u8 ucMode);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

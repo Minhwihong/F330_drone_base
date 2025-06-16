@@ -9,8 +9,29 @@
              * such as include paths, browse paths, defines, etc.
              */
             "name": "STM32",
-            "configurationProvider": "ms-vscode.cmake-tools",
-            "intelliSenseMode": "${default}"
+
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "configurationProvider": "iarsystems.iar-build",
+            "compilerPath": "/opt/st/stm32cubeclt_1.16.0/GNU-tools-for-STM32/bin/arm-none-eabi-gcc",
+            "intelliSenseMode": "${default}",
+            "defines": [
+                "_DEBUG",
+                "USE_HAL_DRIVER",
+                "STM32F429xx",
+                "__GNUC__"
+            ],
+            "includePath": [
+                "Core/Inc",
+                "Drivers/CMSIS/Device/ST/STM32F4xx/Include",
+                "Drivers/CMSIS/Include",
+                "Drivers/STM32F4xx_HAL_Driver/Inc",
+                "Drivers/STM32F4xx_HAL_Driver/Inc/Legacy",
+                "portHAL",
+                "portHAL/portSTM32",
+                "freeRTOS/include",
+                "freeRTOS/portable"
+            ]
         }
     ]
 }

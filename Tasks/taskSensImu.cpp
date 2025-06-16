@@ -16,7 +16,7 @@ void TaskSenseIMU(void* args){
         ICM20602_Get3AxisGyroRawData(g_pxComm_Icm20602, g_ausGyro);
         printf("X: %d, Y: %d, Z: %d\r\n",g_ausGyro[0], g_ausGyro[1],g_ausGyro[2] );
 
-        vTaskDelay(10);
+        vTaskDelay(50);
     }
 
 }

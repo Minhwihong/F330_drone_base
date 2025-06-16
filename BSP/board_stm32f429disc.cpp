@@ -7,8 +7,12 @@
 
 u32 g_uiTTL = 0;
 ISpi* g_pxComm_Icm20602;
+ISpi* g_pxComm_Bno080;
 GpioNode_t g_xGpo_Icm20602_cs;
-
+GpioNode_t g_xGpo_Bno080_cs;
+GpioNode_t g_xGpo_Bno080_mode1;
+GpioNode_t g_xGpo_Bno080_mode2;
+GpioNode_t g_xGpo_Bno080_reset;
 
 
 extern GpioNode_t g_xGpo_boardLed1;
@@ -68,7 +72,7 @@ void BSP_Icm20602Init(){
 
   static ISpi xComm_Icm20602;
   static SPI_HwWrapper xSpi_Icm20602;
-  static Gpio_HwWrapper xSpiCs_Icm20602;
+  static Gpio_HwWrapper xSpiCs_Icm20602 = {SPI_CS_ICM20602_GPIO_Port, SPI_CS_ICM20602_Pin };
 
   portHw_SpiInit(&xSpi_Icm20602, &hspi2, 1000, 1000);
   GpioPin_Def(g_usGpioId++, GPIO_PIN_OUT, GPI_FILTER_OFF, &g_xGpo_Icm20602_cs, &xSpiCs_Icm20602);
@@ -77,6 +81,22 @@ void BSP_Icm20602Init(){
   InitSpiHardware(&xComm_Icm20602, &xSpi_Icm20602, &g_xGpo_Icm20602_cs);
 
   g_pxComm_Icm20602 = &xComm_Icm20602;
+}
+
+
+void BSP_Bno080_Init(){
+
+  static ISpi xComm_Bno080;
+  static SPI_HwWrapper xSpi_Bno080;
+  static Gpio_HwWrapper xSpiCs_Bno080 = {GPO_SPI1_CS_GPIO_Port, GPO_SPI1_CS_Pin };
+
+  portHw_SpiInit(&xSpi_Bno080, &hspi1, 1000, 1000);
+  GpioPin_Def(g_usGpioId++, GPIO_PIN_OUT, GPI_FILTER_OFF, &g_xGpo_Bno080_cs, &xSpiCs_Bno080);
+
+
+  InitSpiHardware(&xComm_Bno080, &xSpi_Bno080, &g_xGpo_Bno080_cs);
+
+  g_pxComm_Bno080 = &xComm_Bno080;
 }
 
 

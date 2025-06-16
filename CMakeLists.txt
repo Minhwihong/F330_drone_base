@@ -14,6 +14,11 @@ set(CMAKE_C_EXTENSIONS ON)
 
 set (CMAKE_CXX_STANDARD 17)
 
+set(MX_Defines_Syms 
+	USE_HAL_DRIVER 
+	STM32F429xx
+    $<$<CONFIG:Debug>:DEBUG>
+)
 
 # Define the build type
 if(NOT CMAKE_BUILD_TYPE)

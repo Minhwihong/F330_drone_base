@@ -1,5 +1,10 @@
 #ifndef __TYPE_SIMPLE_H__
 #define __TYPE_SIMPLE_H__
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdint.h>
 
 typedef uint8_t u8;
@@ -10,6 +15,8 @@ typedef int8_t s8;
 typedef int16_t s16;
 typedef int32_t s32;
 
-
+#ifdef __cplusplus
+}
+#endif
 
 #endif

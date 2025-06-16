@@ -25,16 +25,33 @@
         ]
     },
     "files.associations": {
-        "tiny_printf.h": "c",
-        "entry.h": "c",
-        "portstm32_gpio.h": "c",
-        "array": "c",
-        "ranges": "c",
-        "span": "c",
-        "vector": "c",
-        "xstring": "c",
-        "xutility": "c",
-        "string": "c",
-        "string_view": "c"
-    }
+        "if_spi.h": "c",
+        "portstm32_spi.h": "c",
+        "if_timer.h": "c"
+    },
+    // "files.associations": {
+    //     "portstm32_timer.h": "c"
+    // },
+    // "files.associations": {
+    //     "tiny_printf.h": "c",
+    //     "entry.h": "c",
+    //     "portstm32_gpio.h": "c",
+    //     "array": "c",
+    //     "ranges": "c",
+    //     "span": "c",
+    //     "vector": "c",
+    //     "xstring": "c",
+    //     "xutility": "c",
+    //     "string": "c",
+    //     "string_view": "c",
+    //     "if_gpio.h": "c",
+    //     "compare": "c",
+    //     "bno080.h": "c",
+    //     "main.h": "c",
+    //     "portstm32_pwm.h": "c",
+    //     "portstm32_timer.h": "c",
+    //     "if_hal.h": "c",
+    //     "stm32f4xx_hal.h": "c",
+    //     "typesimple.h": "c"
+    // }
 }

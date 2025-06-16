@@ -162,8 +162,19 @@ void Error_Handler(void);
 #define D2_GPIO_Port GPIOD
 #define D3_Pin GPIO_PIN_1
 #define D3_GPIO_Port GPIOD
+#define GPE07_BNO080_INT_Pin GPIO_PIN_7
+#define GPE07_BNO080_INT_GPIO_Port GPIOD
+#define GPE07_BNO080_INT_EXTI_IRQn EXTI9_5_IRQn
 #define UART_CLI_RX_Pin GPIO_PIN_9
 #define UART_CLI_RX_GPIO_Port GPIOG
+#define GPO_BNO080_MODE1_Pin GPIO_PIN_10
+#define GPO_BNO080_MODE1_GPIO_Port GPIOG
+#define GPO_SPI1_CS_Pin GPIO_PIN_11
+#define GPO_SPI1_CS_GPIO_Port GPIOG
+#define GPO_BNO080_MODE2_Pin GPIO_PIN_12
+#define GPO_BNO080_MODE2_GPIO_Port GPIOG
+#define LD3_Pin GPIO_PIN_13
+#define LD3_GPIO_Port GPIOG
 #define LD4_Pin GPIO_PIN_14
 #define LD4_GPIO_Port GPIOG
 #define SDNCAS_Pin GPIO_PIN_15
@@ -184,6 +195,7 @@ void Error_Handler(void);
 
 extern TIM_HandleTypeDef htim7;
 extern SPI_HandleTypeDef hspi2;
+extern SPI_HandleTypeDef hspi1;
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

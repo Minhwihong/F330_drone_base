@@ -6,6 +6,7 @@ extern "C" {
 #endif
 
 #include "typeSimple.h"
+//#include "IF_Hal.h"
 #include "IF_timer.h"
 #include "portStm32_Gpio.h"
 

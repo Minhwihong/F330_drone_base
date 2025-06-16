@@ -26,7 +26,7 @@ void GpioPin_Def(u16 _usId, u8 _ucMode, u8 _ucUseFilter, GpioNode_t* pxPinNode, 
     Gpio_HwWrapper* pxPin = _pxPin;
 
 
-    pxPinNode->pxGpioPin = (void*)pxPin;
+    pxPinNode->pxGpioPin = pxPin;
     pxPinNode->usId = _usId;
     pxPinNode->ucMode = _ucMode;
     pxPinNode->ucUseFilter = _ucUseFilter;
